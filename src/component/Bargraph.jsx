@@ -11,7 +11,7 @@ const st3 = { stroke: '#000000', strokeMiterlimit: 10 };
 const lit = { fill: '#FF0000', stroke: '#000000', strokeMiterlimit:10 };
 
 const barWidget = (voltage) => {
-    let barCount = Math.floor(5 * voltage);
+    let barCount = Math.floor(5.1 * voltage);
     return <g>
         <rect x="23.0" y="21.7" style={barCount > 0? lit : st0} width="5.4" height="13.8"/>
         <rect x="35.9" y="21.7" style={barCount > 1? lit : st0} width="5.4" height="13.8"/>
@@ -50,9 +50,11 @@ class Bargraph extends Component {
 
     render() {
         let frame = img(barWidget(this.props.voltage));
+        let Child = this.props.children && this.props.children;
         return (
-          <div>
-            {frame}
+          <div style={{ display: 'flex' }}>
+              {frame}
+              {Child && <Child.type {...Child.props} voltage={this.props.voltage}/>}
           </div>
         );
     }

@@ -9,7 +9,15 @@ class App extends Component {
         <div className="app">
             Little Bits Simulator
             <main>
-                <Simulator root={<Bargraph />}/>
+                <Simulator root={
+                    <Bargraph>
+                        <Bargraph>
+                            <Bargraph>
+                                <Bargraph/>
+                            </Bargraph>
+                        </Bargraph>
+                    </Bargraph>
+                }/>
             </main>
             <footer>
                 <Bits bits={[<Bargraph />]}/>
