@@ -9,9 +9,10 @@ class Bargraph extends Component {
         let barCount = Math.floor(5.1 * this.props.voltage);
         let Child = this.props.children && this.props.children;
         return (
-            <Frame color={'#96CA4F'}><Bars color={'#FC913A'} barCount={barCount}/></Frame>
+            <Frame widget={<Bars color={'#FC913A'} barCount={barCount}/>} color={'#96CA4F'}>
+                {Child && <Child.type {...Child.props} voltage={this.props.voltage}/>}
+            </Frame>
         );
-        // {Child && <Child.type {...Child.props} voltage={this.props.voltage}/>}
     }
 }
 
