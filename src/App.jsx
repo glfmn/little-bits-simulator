@@ -8,7 +8,7 @@ class App extends Component {
     return (
         <div className="app">
             Little Bits Simulator
-            <main>
+            <main className="simulator">
                 <Simulator root={
                     <Bargraph>
                         <Bargraph>
@@ -19,7 +19,7 @@ class App extends Component {
                     </Bargraph>
                 }/>
             </main>
-            <footer>
+            <footer className="bit-bar">
                 <Bits bits={[<Bargraph />]}/>
             </footer>
         </div>
