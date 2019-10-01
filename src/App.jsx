@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import Bits from './bits/Bits';
+import BitList from './BitList';
 import Bargraph from './bits/Bargraph';
 import Dimmer from './bits/Dimmer';
 import Simulator from './Simulator'
@@ -23,8 +23,8 @@ export default function App(props) {
                     </Simulator>
                 </main>
                 <footer className="bit-bar">
-                    <p>Drag and Drop these components into the simulator</p>
-                    <Bits bits={[<Bargraph />, <Dimmer />]}/>
+                    <p className="bit-bar__desc">Drag and Drop these components into the simulator</p>
+                    <BitList bits={[<Bargraph />, <Dimmer />]}/>
                 </footer>
             </DndProvider>
         </div>
