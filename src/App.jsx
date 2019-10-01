@@ -12,20 +12,21 @@ class App extends Component {
         <div className="app">
             Little Bits Simulator
             <DndProvider backend={HTML5Backend}>
-            <main className="simulator">
-                <Simulator>
-                    <Dimmer>
-                        <Bargraph>
-                            <Dimmer>
-                                <Bargraph/>
-                            </Dimmer>
-                        </Bargraph>
-                    </Dimmer>
-                </Simulator>
-            </main>
-            <footer className="bit-bar">
-                <Bits bits={[<Bargraph />, <Dimmer />]}/>
-            </footer>
+                <main className="simulator">
+                    <Simulator>
+                        <Dimmer>
+                            <Bargraph>
+                                <Dimmer>
+                                    <Bargraph/>
+                                </Dimmer>
+                            </Bargraph>
+                        </Dimmer>
+                    </Simulator>
+                </main>
+                <footer className="bit-bar">
+                    <p>Drag and Drop these components into the simulator</p>
+                    <Bits bits={[<Bargraph />, <Dimmer />]}/>
+                </footer>
             </DndProvider>
         </div>
     );

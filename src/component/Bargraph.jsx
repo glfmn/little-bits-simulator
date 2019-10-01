@@ -7,9 +7,11 @@ class Bargraph extends Component {
         const { voltage, hideInterlock } = this.props;
         let barCount = Math.floor(6 * voltage);
         let Child = this.props.children;
+        const dragPayload = {props: {...this.props, children: null}, astType: Bargraph};
         return (
             <Frame hideInterlock={hideInterlock}
                    widget={<Bars color={'#FC913A'} barCount={barCount}/>}
+                   dragPayload={dragPayload}
                    color={'#96CA4F'}>
                 {Child && <Child.type {...Child.props} voltage={this.props.voltage} hideInterlock={true}/>}
             </Frame>

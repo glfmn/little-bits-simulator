@@ -16,6 +16,7 @@ class Dimmer extends Component {
     }
 
     render() {
+        const dragPayload = {props: {...this.props, children: null}, astType: Dimmer};
         let Child = this.props.children;
         const { voltage, hideInterlock } = this.props;
         const { dimmer } = this.state;
@@ -23,6 +24,7 @@ class Dimmer extends Component {
         return (<Frame hideInterlock={hideInterlock}
                        widget={<Dial dial={10 + 350 * dimmer}/>}
                        label={label}
+                       dragPayload={dragPayload}
                        color={'#CB0D96'}>
             {Child && <Child.type {...Child.props} voltage={voltage * dimmer} hideInterlock={true}/>}
         </Frame>);

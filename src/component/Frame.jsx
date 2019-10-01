@@ -15,11 +15,10 @@ const pinStyle = {
     strokeMiterlimit: 10
 };
 
-function Frame(props) {
-    const { children, color, widget, hideInterlock, label } = props;
+function Frame({ dragPayload, children, color, widget, hideInterlock, label }) {
 
     const [{ isDragging }, drag] = useDrag({
-        item: { type: ItemTypes.FRAME },
+        item: { type: ItemTypes.FRAME, ...dragPayload, children: children },
         collect: monitor => ({
             isDragging: !!monitor.isDragging(),
         }),
@@ -65,6 +64,10 @@ function Frame(props) {
 }
 
 Frame.propTypes = {
+    dragPayload: PropTypes.shape({
+        astType: PropTypes.elementType,
+        props: PropTypes.object,
+    }),
     children: PropTypes.element,
     color: PropTypes.string,
     widget: PropTypes.element,

@@ -8,39 +8,118 @@ import { ItemTypes } from './Constants';
 /// elements in the simulator
 export default class Simulator extends Component {
     constructor(props) {
-        super(props);
+        super(props)
         this.state = {
-            ast: React.Children.map(props.children, (c) => constructAst(c))
+            ast: React.Children.map(props.children, c => { return {
+                id: Math.random(), nodes: constructAst(c, 0)
+            }})
         };
-        console.log(this.state.ast);
+        this.state.ast.push({id: Math.random()})
+        this.updateAst = this.updateAst.bind(this);
     }
 
     render() {
-        const sims =
-            this.state.ast.map((ast) => <RootFrame key={Math.random()}>
-                {renderAst(ast, (i) => console.log(`Adding a ${i.type} to `, ast))}
-            </RootFrame>);
+        const sims = this.state.ast.map(a => this.renderChildren(a))
         return (<div>{sims}</div>);
     }
-}
 
+    renderChildren({ nodes, id }) {
+        const leaf = <Placeholder onDrop={node => this.updateAst(nodes, node, id)}/>;
+        return (
+            <RootFrame key={id}>
+                {renderAst(nodes, leaf)}
+            </RootFrame>
+        );
+    }
 
-/// Construct an AST node from the props of a React element
-function constructAst(Child) {
-    return {
-        type: Child.type,
-        props: {...Child.props, children: null},
-        children: Child.props.children? constructAst(Child.props.children) : null
+    updateAst(ast, node, astId) {
+        this.setState((state, props) => {
+            return {
+                ast: state.ast.map(({id, nodes}) => {
+                    if (astId === id) {
+                        return { nodes: appendAst(ast, node), id: id }
+                    } else {
+                        return { nodes, id }
+                    }
+                })
+            }
+        });
     }
 }
 
+/// Construct an AST node from the props of a React element
+function constructAst(Child, depth) {
+    return {
+        type: Child.type,
+        props: {...Child.props, children: undefined, depth: depth },
+        children: Child.props.children? constructAst(Child.props.children, depth + 1) : undefined
+    }
+}
 
-function renderAst(node, onDrop) {
+/// Place a new ast node at the depest spot in the tree
+function appendAst(ast, node) {
+    const convert = (n, depth) => {
+        return {
+            type: node.astType,
+            props: node.props,
+            children: node.children && constructAst(node.children, depth)
+        }
+    }
+    if (!ast) {
+        return constructAst(convert(node))
+    }
+    const newChildren = ast.children? appendAst(ast.children, node) : convert(node, ast.depth + 1)
+    const newAst = {...ast, children: newChildren};
+    return newAst;
+}
+
+/// Convert AST back into renderable components
+function renderAst(node, leaf) {
+    if (!node) {
+        return leaf;
+    }
     const Parent = node.type;
     const props = node.props;
     return <Parent {...props}>
-        {node.children? renderAst(node.children, onDrop) : <Placeholder onDrop={onDrop}/>}
+        {node.children? renderAst(node.children, leaf) : leaf}
     </Parent>;
+}
+
+function Placeholder({onDrop}) {
+    const [, drop] = useDrop({
+        accept: ItemTypes.FRAME,
+        drop: (i) => onDrop(i),
+        collect: mon => ({
+            isOver: !!mon.isOver(),
+            canDrop: !!mon.canDrop(),
+        }),
+    })
+    return (<div ref={drop}><PlaceholderFrame className='.bit-placeholder'/></div>)
+}
+
+function PlaceholderFrame(props) {
+    const frameStyle = {
+        fill: '#e0e0e0',
+        stroke: '#000000',
+        strokeMiterlimit: 10
+    };
+    const backgroundStyle = {
+        fill: '#FFFFFF',
+        stroke: '#000000',
+        strokeMidth: 0.9997,
+        strokeMiterlimit: 10
+    };
+    return <svg version="1.1" x="0px" y="0px" width="104.2px" height="60.5px" viewBox="0 0 104.2 60.5">
+        <g>
+            <title>Layer 1</title>
+            <g>
+                <rect style={backgroundStyle} height="57.4" width="67.6" y="1.6" x="18.81483"/>
+                <path style={frameStyle} d="m15.08944,0.5l-9,0l0,18.3c-0.3,0.2 -0.5,0.7 -0.5,1.2l0,20.2c0,0.6 0.2,1 0.5,1.2l0,18.6l9,0c2.3,0 4.2,-1.9 4.2,-4.2l0,-51.1c0,-2.3 -1.9,-4.2 -4.2,-4.2z"/>
+                <text textAnchor="middle" fontFamily="monospace" fontSize="24" y="25.62157" x="51.89375">DROP</text>
+                <text textAnchor="middle" fontFamily="monospace" fontSize="24" y="50.75" x="53.60001">HERE</text>
+            </g>
+        </g>
+    </svg>
 }
 
 export function RootFrame(props) {
@@ -65,16 +144,4 @@ export function RootFrame(props) {
             {<Root.type {...Root.props} voltage={1} hideInterlock={true}/>}
         </span>
     </div>);
-}
-
-function Placeholder({onDrop}) {
-    const [, drop] = useDrop({
-        accept: ItemTypes.FRAME,
-        drop: (i) => onDrop(i),
-        collect: mon => ({
-            isOver: !!mon.isOver(),
-            canDrop: !!mon.canDrop(),
-        }),
-    })
-    return (<div ref={drop} className='.bit-placeholder'>DROP HERE</div>)
 }
