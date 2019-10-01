@@ -9,6 +9,15 @@ Implemented bits:
 - Dimmer
 - Bargraph
 
+## Running the Code
+
+With yarn installed, simply run the start or build command:
+
+```
+$ yarn start # debug server
+$ yarn bulid # release server
+```
+
 ## Technical Details
 
 The simulator logic is separated into two parts:
