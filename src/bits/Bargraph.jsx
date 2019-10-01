@@ -2,11 +2,18 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import Frame, {GREEN, ORANGE} from "../Frame";
 
+/// Inspect the voltage and display as a bargraph
+///
+/// Display 5 bars from left to right depending on the magnitude of the voltage prop, 0.0
+/// bars at 0 and 5 bars at 1.0.  Do not modify the voltage passed to the child.
 export default function Bargraph(props) {
     const { voltage, hideInterlock } = props;
-    let barCount = Math.floor(6 * voltage);
     let Child = props.children;
     const dragPayload = {props: {...props, children: null}, astType: Bargraph};
+
+    // multiplying by 6 instead of 5 is more visually pleasing
+    let barCount = Math.floor(6 * voltage);
+
     return (
         <Frame hideInterlock={hideInterlock}
                widget={<Bars color={ORANGE} barCount={barCount}/>}

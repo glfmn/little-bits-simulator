@@ -2,6 +2,10 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import Frame, {MAGENTA} from "../Frame";
 
+/// Dim the outgoing voltage based on input slider
+///
+/// Reduces the voltage in proportion to the value on the voltage slider and renders a nice
+/// dial which also updates with the amount of dimming specified.
 class Dimmer extends Component {
     constructor(props) {
         super(props);
@@ -12,6 +16,7 @@ class Dimmer extends Component {
     }
 
     setDimmer(dimmer) {
+        // value from the input type='range' appears to be a string more often than not
         this.setState({ dimmer: parseFloat(dimmer) });
     }
 
