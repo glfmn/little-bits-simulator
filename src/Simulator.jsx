@@ -62,7 +62,7 @@ export function RootFrame(props) {
             </g>
         </svg>
         <span style={{ transform: 'translateX(-8px)' }}>
-            {<Root.type {...Root.props} hideInterlock={true}/>}
+            {<Root.type {...Root.props} voltage={1} hideInterlock={true}/>}
         </span>
     </div>);
 }
