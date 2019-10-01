@@ -3,11 +3,12 @@ import React, { Component } from 'react';
 class Simulator extends Component {
     render() {
         const Root = this.props.children;
-        return (
+        return (<div>
             <RootFrame>
                 <Root.type {...Root.props} voltage={1} hideInterlock={true}/>
             </RootFrame>
-        )
+            <RootFrame />
+        </div>)
     }
 }
 
@@ -20,7 +21,7 @@ function RootFrame(props) {
     };
 
     // Took the right edge from the frame of the Little Bit and translated it to be at the edge
-    return (<div style={{display: 'flex'}}>
+    return (<div className='root-connector' style={{display: 'flex'}}>
         <svg version="1.1" x="0px" y="0px" width="24.2px" height="60.5px" viewBox="0 0 24.2 60.5">
             <g transform="translate(-80 0)">
                 <path style={frameStyle} d="M90.1,60h9V41.7c0.3-0.2,0.5-0.7,0.5-1.2V20.3c0-0.6-0.2-1-0.5-1.2V0.5h-9c-2.3,0-4.2,1.9-4.2,4.2v51.1 C85.9,58.1,87.8,60,90.1,60z"/>

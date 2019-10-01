@@ -14,13 +14,6 @@ const pinStyle = {
 };
 
 class Frame extends Component {
-    constructor(props) {
-        super(props);
-        this.state = {
-            renderChildren: true
-        };
-    }
-
     render() {
         const { children, color, hideInterlock, label } = this.props;
         const frameStyle = {
@@ -55,7 +48,7 @@ class Frame extends Component {
                 </div>
             </div>
             <span style={{ transform: 'translateX(-8px)', position: 'absolute', left: '100%', top: 0 }}>
-                {this.state.renderChildren && children}
+                {children}
             </span>
         </div>);
     }

@@ -21,7 +21,7 @@ class Dimmer extends Component {
         const { dimmer } = this.state;
         const label = <Range className='dimmer-range' min={0} max={1} value={dimmer} update={this.setDimmer}/>;
         return (<Frame hideInterlock={hideInterlock}
-                       widget={<Dial dial={360 * dimmer}/>}
+                       widget={<Dial dial={10 + 350 * dimmer}/>}
                        label={label}
                        color={'#CB0D96'}>
             {Child && <Child.type {...Child.props} voltage={voltage * dimmer} hideInterlock={true}/>}
