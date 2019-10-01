@@ -6,8 +6,7 @@ import Simulator from './Simulator'
 import { DndProvider } from 'react-dnd'
 import HTML5Backend from 'react-dnd-html5-backend'
 
-class App extends Component {
-    render() {
+export default function App(props) {
     return (
         <div className="app">
             Little Bits Simulator
@@ -30,7 +29,4 @@ class App extends Component {
             </DndProvider>
         </div>
     );
-    }
 }
-
-export default App;
