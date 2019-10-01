@@ -1,6 +1,13 @@
-import React, { Component } from 'react';
+//! The Frame Component encapsulates positioning and drag-and-drop logic of a Little Bit
+//!
+//! Bits are expected to use Frames in their implementation, but this is not
+//! strictly necessary.
+//!
+//! This module also provides color constants for common frame colors.
+
+import React from 'react';
 import { ItemTypes } from './Constants';
-import { useDrag, useDrop } from 'react-dnd';
+import { useDrag } from 'react-dnd';
 import PropTypes from 'prop-types';
 
 const backgroundStyle = {
@@ -90,7 +97,7 @@ export function RootFrame(props) {
 /// information necessary for any drag target to reconstruct the node which contains the frame.
 /// **It is recommended that props does not contain the children.**
 export default function Frame({ dragPayload, children, color, widget, hideInterlock, label }) {
-    const [{ isDragging }, drag] = useDrag({
+    const [, drag] = useDrag({
         item: { type: ItemTypes.FRAME, ...dragPayload, children: children },
         collect: monitor => ({
             isDragging: !!monitor.isDragging(),
