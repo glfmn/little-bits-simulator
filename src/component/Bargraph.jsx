@@ -1,22 +1,20 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import {Frame} from "../Simulator";
+import Frame, {GREEN, ORANGE} from "../Frame";
 
-class Bargraph extends Component {
-    render() {
-        const { voltage, hideInterlock } = this.props;
-        let barCount = Math.floor(6 * voltage);
-        let Child = this.props.children;
-        const dragPayload = {props: {...this.props, children: null}, astType: Bargraph};
-        return (
-            <Frame hideInterlock={hideInterlock}
-                   widget={<Bars color={'#FC913A'} barCount={barCount}/>}
-                   dragPayload={dragPayload}
-                   color={'#96CA4F'}>
-                {Child && <Child.type {...Child.props} voltage={this.props.voltage} hideInterlock={true}/>}
-            </Frame>
-        );
-    }
+export default function Bargraph(props) {
+    const { voltage, hideInterlock } = props;
+    let barCount = Math.floor(6 * voltage);
+    let Child = props.children;
+    const dragPayload = {props: {...props, children: null}, astType: Bargraph};
+    return (
+        <Frame hideInterlock={hideInterlock}
+               widget={<Bars color={ORANGE} barCount={barCount}/>}
+               dragPayload={dragPayload}
+               color={GREEN}>
+            {Child && <Child.type {...Child.props} voltage={voltage} hideInterlock={true}/>}
+        </Frame>
+    );
 }
 
 Bargraph.propTypes = {
@@ -51,5 +49,3 @@ function Bars(props) {
         <rect x="24.6" y="44.4" style={unlitStyle} width="2.3" height="8.4"/>
     </g>)
 }
-
-export default Bargraph;

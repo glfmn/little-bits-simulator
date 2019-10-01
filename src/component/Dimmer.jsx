@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import {Frame} from "../Simulator";
+import Frame, {MAGENTA} from "../Frame";
 
 class Dimmer extends Component {
     constructor(props) {
@@ -25,7 +25,7 @@ class Dimmer extends Component {
                        widget={<Dial dial={10 + 350 * dimmer}/>}
                        label={label}
                        dragPayload={dragPayload}
-                       color={'#CB0D96'}>
+                       color={MAGENTA}>
             {Child && <Child.type {...Child.props} voltage={voltage * dimmer} hideInterlock={true}/>}
         </Frame>);
     }
