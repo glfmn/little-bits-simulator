@@ -1,42 +1,57 @@
 import React, { Component } from 'react';
+import { useDrop } from 'react-dnd';
+import { ItemTypes } from './Constants';
 
-class Simulator extends Component {
+/// Simulator transforms all child nodes into an AST which supports drag-and-drop
+///
+/// The AST's sole purpose is to facillitate re-writing parent-child relationships between
+/// elements in the simulator
+export default class Simulator extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            ast: [this.constructAst(this.props.children)]
+            ast: React.Children.map(props.children, (c) => constructAst(c))
         };
         console.log(this.state.ast);
     }
 
-    constructAst(Child) {
-        return {
-            type: Child.type,
-            props: {...Child.props, children: null},
-            children: Child.props.children? this.constructAst(Child.props.children) : null
-        }
-    }
-
-    renderAst(node) {
-        const Parent = node.type;
-        const props = node.props;
-        return <Parent {...props}>{node.children? this.renderAst(node.children) : null}</Parent>;
-    }
-
     render() {
         const sims =
-            this.state.ast.map((ast) => <RootFrame key={Math.random()}>{this.renderAst(ast)}</RootFrame>);
+            this.state.ast.map((ast) => <RootFrame key={Math.random()}>
+                {renderAst(ast, (i) => console.log(`Adding a ${i.type} to `, ast))}
+            </RootFrame>);
         return (<div>{sims}</div>);
     }
 }
 
-function RootFrame(props) {
+
+/// Construct an AST node from the props of a React element
+function constructAst(Child) {
+    return {
+        type: Child.type,
+        props: {...Child.props, children: null},
+        children: Child.props.children? constructAst(Child.props.children) : null
+    }
+}
+
+
+function renderAst(node, onDrop) {
+    const Parent = node.type;
+    const props = node.props;
+    return <Parent {...props}>
+        {node.children? renderAst(node.children, onDrop) : <Placeholder onDrop={onDrop}/>}
+    </Parent>;
+}
+
+export function RootFrame(props) {
     const frameColor = props.color;
     const frameStyle = {
         fill: frameColor? frameColor : '#00F',
         stroke: '#000000',
         strokeMiterlimit: 10
     };
+
+    const Root = props.children;
 
     // Took the right edge from the frame of the Little Bit and translated it to be at the edge
     return (<div className='root-connector' style={{display: 'flex'}}>
@@ -47,9 +62,19 @@ function RootFrame(props) {
             </g>
         </svg>
         <span style={{ transform: 'translateX(-8px)' }}>
-            {props.children}
+            {<Root.type {...Root.props} hideInterlock={true}/>}
         </span>
     </div>);
 }
 
-export default Simulator;
+function Placeholder({onDrop}) {
+    const [, drop] = useDrop({
+        accept: ItemTypes.FRAME,
+        drop: (i) => onDrop(i),
+        collect: mon => ({
+            isOver: !!mon.isOver(),
+            canDrop: !!mon.canDrop(),
+        }),
+    })
+    return (<div ref={drop} className='.bit-placeholder'>DROP HERE</div>)
+}
