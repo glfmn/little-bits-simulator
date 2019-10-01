@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
-import Bits from './component/Bits';
-import Bargraph from './component/Bargraph';
-import Dimmer from './component/Dimmer';
+import Bits from './bits/Bits';
+import Bargraph from './bits/Bargraph';
+import Dimmer from './bits/Dimmer';
 import Simulator from './Simulator'
 import { DndProvider } from 'react-dnd'
 import HTML5Backend from 'react-dnd-html5-backend'
