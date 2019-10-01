@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import PropTypes from 'prop-types';
 import Frame from "./Frame";
 
 class Dimmer extends Component {
@@ -11,7 +12,7 @@ class Dimmer extends Component {
     }
 
     setDimmer(dimmer) {
-        this.setState({ dimmer: dimmer });
+        this.setState({ dimmer: parseFloat(dimmer) });
     }
 
     render() {
@@ -26,6 +27,12 @@ class Dimmer extends Component {
             {Child && <Child.type {...Child.props} voltage={voltage * dimmer} hideInterlock={true}/>}
         </Frame>);
     }
+}
+
+Dimmer.propTypes = {
+    voltage: PropTypes.number,
+    hideInterlock: PropTypes.bool,
+    children: PropTypes.element,
 }
 
 class Range extends Component {
@@ -52,6 +59,13 @@ class Range extends Component {
                    onChange={this.updateRange}/>
         );
     }
+}
+
+Range.propTypes = {
+    value: PropTypes.number,
+    min: PropTypes.number,
+    max: PropTypes.number,
+    update: PropTypes.func,
 }
 
 function Dial(props) {

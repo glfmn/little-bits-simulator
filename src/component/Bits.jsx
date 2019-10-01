@@ -11,4 +11,8 @@ class Bits extends Component {
     }
 }
 
+Bits.propTypes = {
+    bits: PropTypes.arrayOf(PropTypes.element),
+}
+
 export default Bits;

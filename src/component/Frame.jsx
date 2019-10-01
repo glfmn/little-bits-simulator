@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import PropTypes from 'prop-types';
 
 const backgroundStyle = {
     fill: '#FFFFFF',
@@ -13,6 +14,13 @@ const pinStyle = {
 };
 
 class Frame extends Component {
+    constructor(props) {
+        super(props);
+        this.state = {
+            renderChildren: true
+        };
+    }
+
     render() {
         const { children, color, hideInterlock, label } = this.props;
         const frameStyle = {
@@ -52,5 +60,13 @@ class Frame extends Component {
         </div>);
     }
 }
+
+Frame.propTypes = {
+    children: PropTypes.element,
+    color: PropTypes.string,
+    widget: PropTypes.element,
+    label: PropTypes.node,
+    hideInterlock: PropTypes.bool,
+};
 
 export default Frame;

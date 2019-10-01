@@ -1,8 +1,6 @@
 import React, { Component } from 'react';
+import PropTypes from 'prop-types';
 import Frame from './Frame';
-
-// const img = 'o9-Bargraph-01.svg';
-
 
 class Bargraph extends Component {
     render() {
@@ -17,6 +15,12 @@ class Bargraph extends Component {
             </Frame>
         );
     }
+}
+
+Bargraph.propTypes = {
+    voltage: PropTypes.number,
+    hideInterlock: PropTypes.bool,
+    children: PropTypes.element,
 }
 
 function Bars(props) {
