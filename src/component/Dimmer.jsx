@@ -79,7 +79,7 @@ function Dial(props) {
         <ellipse style={greeble} ry="1.661133" rx="1.661133" cy="45.219238" cx="32.593735"/>
         <g transform={`rotate(${props.dial}, 51.1981, 30.9031)`}>
             <ellipse style={greeble} ry="11.012421" rx="11.012421" id="svg_27" cy="30.903092" cx="51.064577"/>
-            <rect style={notch} id="svg_30" height="1.70192" width="21.123825" y="30.335785" x="40.552721"/>
+            <rect style={notch} id="svg_30" height="1.70192" width="11.123825" y="30.335785" x="40.552721"/>
         </g>
     </g>)
 }
