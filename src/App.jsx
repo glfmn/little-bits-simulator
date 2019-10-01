@@ -37,7 +37,9 @@ import HTML5Backend from 'react-dnd-html5-backend'
 export default function App(props) {
     return (
         <div className="app">
-            Little Bits Simulator
+            <header className="header">
+                <h1>Little Bits Simulator</h1>
+            </header>
             <DndProvider backend={HTML5Backend}>
                 <main className="simulator">
                     <Simulator>

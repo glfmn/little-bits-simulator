@@ -30,7 +30,9 @@ export default class Simulator extends Component {
                 id: Math.random(), nodes: constructAst(c, 0)
             }})
         };
-        this.state.ast.push({id: Math.random()})
+        while (this.state.ast.length < (props.length? props.length : 4)) {
+            this.state.ast.push({id: Math.random()})
+        }
         this.updateAst = this.updateAst.bind(this);
     }
 
