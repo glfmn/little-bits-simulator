@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import Frame from './Frame';
+import {Frame} from "../Simulator";
 
 class Bargraph extends Component {
     render() {
