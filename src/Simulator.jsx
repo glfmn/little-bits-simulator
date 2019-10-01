@@ -39,7 +39,10 @@ export default class Simulator extends Component {
         return (<div>{sims}</div>);
     }
 
+    /// Render an individual AST by converting the AST back into the original nodes
     renderChildren({ nodes, id }) {
+        // Put a placeholder at the end of the tree which can register a callback to
+        // append nodes to the AST
         const leaf = <Placeholder onDrop={node => this.updateAst(nodes, node, id)}/>;
         return (
             <RootFrame key={id}>
@@ -49,9 +52,16 @@ export default class Simulator extends Component {
     }
 
     updateAst(ast, node, astId) {
+        // TODO: consider making this a higher-order method which handles matching the
+        // ast to a particular id so we can define callbacks more easily without messing
+        // with ids.
+        //
+        // const update = (a, n) => {return { nodes: appendAST(a,n) } };
+        // this.setState(id, update)(ast, node)
         this.setState((state, props) => {
             return {
                 ast: state.ast.map(({id, nodes}) => {
+                    // update only the tree which triggered the change
                     if (astId === id) {
                         return { nodes: appendAst(ast, node), id: id }
                     } else {
@@ -77,6 +87,7 @@ function constructAst(Child, depth) {
 
 /// Place a new ast node at the depest spot in the tree
 function appendAst(ast, node) {
+    // convert payload to AST node
     const convert = (n, depth) => {
         return {
             type: node.astType,
@@ -109,7 +120,9 @@ function renderAst(node, leaf) {
     </Parent>;
 }
 
-/// The Leaf-node of the ast which allows the simulator to react to drop-events
+// TODO: function to split nodes off the AST by their depth (deleting nodes)
+
+/// The Leaf-node of the ast which allows the simulator to react to drop events
 function Placeholder({onDrop}) {
     const [, drop] = useDrop({
         accept: ItemTypes.FRAME,
