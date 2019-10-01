@@ -67,8 +67,10 @@ export function RootFrame(props) {
 /// # Design
 ///
 /// - widget: svg snippet which defines the look of a little bit
-/// - label: an element that provides input/output
+/// - label: an element that provides input/output or a simple label
 /// - color: the color of the left and right edge of the Frame
+/// - hideInterlock: hide the bit of the left frame which would overlap the right frame of
+///   the parent
 ///
 /// To design a little bit, simply design the widget that will appear in the inside and a label
 /// (if needed) which is positioned below the frame.
