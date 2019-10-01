@@ -6,8 +6,8 @@ import Frame from './Frame';
 
 class Bargraph extends Component {
     render() {
-        let barCount = Math.floor(5.1 * this.props.voltage);
-        const { hideInterlock } = this.props;
+        const { voltage, hideInterlock } = this.props;
+        let barCount = Math.floor(6 * voltage);
         let Child = this.props.children;
         return (
             <Frame hideInterlock={hideInterlock}
