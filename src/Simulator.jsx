@@ -1,14 +1,32 @@
 import React, { Component } from 'react';
 
 class Simulator extends Component {
+    constructor(props) {
+        super(props);
+        this.state = {
+            ast: [this.constructAst(this.props.children)]
+        };
+        console.log(this.state.ast);
+    }
+
+    constructAst(Child) {
+        return {
+            type: Child.type,
+            props: {...Child.props, children: null},
+            children: Child.props.children? this.constructAst(Child.props.children) : null
+        }
+    }
+
+    renderAst(node) {
+        const Parent = node.type;
+        const props = node.props;
+        return <Parent {...props}>{node.children? this.renderAst(node.children) : null}</Parent>;
+    }
+
     render() {
-        const Root = this.props.children;
-        return (<div>
-            <RootFrame>
-                <Root.type {...Root.props} voltage={1} hideInterlock={true}/>
-            </RootFrame>
-            <RootFrame />
-        </div>)
+        const sims =
+            this.state.ast.map((ast) => <RootFrame key={Math.random()}>{this.renderAst(ast)}</RootFrame>);
+        return (<div>{sims}</div>);
     }
 }
 
