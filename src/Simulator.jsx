@@ -5,8 +5,22 @@ import PropTypes from 'prop-types';
 
 /// Simulator transforms all child nodes into an AST which supports drag-and-drop
 ///
-/// The AST's sole purpose is to facillitate re-writing parent-child relationships between
-/// elements in the simulator
+/// The AST facillitates re-writing parent-child relationships between elements in
+/// the simulator since props are strictly read-only.  This allows for the initial
+/// state of the simulator to be written with elements like normal:
+///
+/// ```
+/// function App(props) {
+///   render (
+///     <Simulator>
+///       <Dimmer><Barcode/></Dimmer>
+///     </Simulator>
+///   )
+/// }
+/// ```
+///
+/// but allows the simulator to still change which elements are the parents of
+/// which.
 export default class Simulator extends Component {
     constructor(props) {
         super(props)
@@ -61,6 +75,9 @@ const pinStyle = {
 };
 
 /// Construct an AST node from the props of a React element
+///
+/// The children are separated from the type and the props in order to allow the simulator
+/// to manipulate each part separately when it updates as a result of drag-and-drop events.
 function constructAst(Child, depth) {
     return {
         type: Child.type,
@@ -88,6 +105,10 @@ function appendAst(ast, node) {
 
 
 /// Convert AST back into renderable components
+///
+/// Reconstruct the AST with an optional Leaf node at the deepest spot in the tree
+/// this allows the Simulator to place a component at the leaves of the tree which can
+/// react to drag-and-drop events by appending new nodes to the tree.
 function renderAst(node, leaf) {
     if (!node) {
         return leaf;
