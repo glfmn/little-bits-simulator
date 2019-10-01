@@ -7,10 +7,13 @@ import Frame from './Frame';
 class Bargraph extends Component {
     render() {
         let barCount = Math.floor(5.1 * this.props.voltage);
-        let Child = this.props.children && this.props.children;
+        const { hideInterlock } = this.props;
+        let Child = this.props.children;
         return (
-            <Frame widget={<Bars color={'#FC913A'} barCount={barCount}/>} color={'#96CA4F'}>
-                {Child && <Child.type {...Child.props} voltage={this.props.voltage}/>}
+            <Frame hideInterlock={hideInterlock}
+                   widget={<Bars color={'#FC913A'} barCount={barCount}/>}
+                   color={'#96CA4F'}>
+                {Child && <Child.type {...Child.props} voltage={this.props.voltage} hideInterlock={true}/>}
             </Frame>
         );
     }

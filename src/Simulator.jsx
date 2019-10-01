@@ -1,33 +1,11 @@
 import React, { Component } from 'react';
 
 class Simulator extends Component {
-    constructor(props) {
-        super(props);
-        this.state = { time: 0.0 };
-    }
-
-    componentDidMount() {
-        this.timerID = setInterval(
-            () => this.tick(),
-            10
-        );
-    }
-
-    componentWillUnmount() {
-        clearInterval(this.timerID);
-    }
-
-    tick() {
-        this.setState((state, props) => {
-            return { time: state.time + 0.05 }
-        });
-    }
-
     render() {
-        const Root = this.props.root;
+        const Root = this.props.children;
         return (
             <RootFrame>
-                {<Root.type {...Root.props} voltage={Math.sin(this.state.time)*0.5 + 0.5}/>}
+                <Root.type {...Root.props} voltage={1} hideInterlock={true}/>
             </RootFrame>
         )
     }
@@ -49,7 +27,7 @@ function RootFrame(props) {
                 {!props.children && <path style={frameStyle} d="M99.6,39.9l2.7-0.3c0.8-0.1,1.4-0.8,1.4-1.6v-5.1c0-0.8-0.6-1.5-1.4-1.5l-2.7-0.2V39.9z"/>}
             </g>
         </svg>
-        <span style={{ zIndex: -1, transform: 'translateX(-8px)' }}>
+        <span style={{ transform: 'translateX(-8px)' }}>
             {props.children}
         </span>
     </div>);
