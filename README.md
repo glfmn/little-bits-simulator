@@ -45,12 +45,14 @@ The Little Bit Components use props to pass voltage information down to their ch
 function HalfVoltage({voltage, children}) {
     const v = voltage * 0.5;
     const Child = children;
-    return <Frame>
+    return <Frame label={`Voltage ${v}`}">
         {Child && <Child.type {...child.props} voltage={v}>{Child.children}</Child.type>}
     </Frame>;
 }
 ```
 
 Where the `Frame` component (slightly simplified here) handles positional logic required to prevent children from overlapping the parent or labels from being blocked.  The `Frame` component also handles drag-and-drop events in combination with the `Simulator`: this allows for dragging a `Frame`-based component onto placeholders so the `Simulator` can add them to the simulation.
+
+This frees up the Little Bits components to focus on how they modify the voltage and what kind of feedback they provide.
 
 Feel free to refer to the source code and comments for more information.
