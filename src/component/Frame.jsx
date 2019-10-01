@@ -23,7 +23,7 @@ class Frame extends Component {
 
         // If we render a connected child, do not render the right interlock and translate the child over
         // a bit to the right so they line up.
-        return (<div style={{display: 'flex'}}>
+        return (<div style={{display: 'relative'}}>
             <div style={{position: "relative"}}>
                 <svg version="1.1" x="0px" y="0px" width="104.2px" height="60.5px" viewBox="0 0 104.2 60.5">
                     <g>
@@ -46,8 +46,8 @@ class Frame extends Component {
                     {label}
                 </div>
             </div>
-            <span style={{ transform: 'translateX(-8px)' }}>
-                {children}
+            <span style={{ transform: 'translateX(-8px)', position: 'absolute', left: '100%', top: 0 }}>
+                {this.state.renderChildren && children}
             </span>
         </div>);
     }
